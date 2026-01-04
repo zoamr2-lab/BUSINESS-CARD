@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahmoud Abdelrahman | Business Analyst at Etmam</title>
+  <meta name="description" content="Digital business card for Mahmoud Abdelrahman, Business Analyst at Etmam for Information Technology. Connect via LinkedIn, WhatsApp, or email.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ========================================
+       CSS VARIABLES & THEME
+    ======================================== */
+    :root {
+      /* Light Mode Colors */
+      --background: hsl(210, 40%, 98%);
+      --foreground: hsl(215, 50%, 8%);
+      --card: hsl(0, 0%, 100%);
+      --card-foreground: hsl(215, 50%, 8%);
+      --primary: hsl(207, 90%, 54%);
+      --primary-foreground: hsl(0, 0%, 100%);
+      --secondary: hsl(210, 40%, 96%);
+      --secondary-foreground: hsl(215, 50%, 8%);
+      --muted: hsl(210, 40%, 96%);
+      --muted-foreground: hsl(215, 20%, 45%);
+      --border: hsl(214, 32%, 91%);
+      --ring: hsl(207, 90%, 54%);
+      --radius: 1rem;
+
+      /* Custom Tokens */
+      --gradient-primary: linear-gradient(135deg, hsl(207, 90%, 54%) 0%, hsl(200, 85%, 60%) 100%);
+      --gradient-glow: radial-gradient(circle at 50% 0%, hsla(207, 90%, 54%, 0.15) 0%, transparent 50%);
+      --shadow-card: 0 25px 50px -12px hsla(0, 0%, 0%, 0.15);
+      --shadow-glow: 0 0 60px hsla(207, 90%, 54%, 0.15);
+      --shadow-icon: 0 4px 20px hsla(207, 90%, 54%, 0.2);
+    }
+
+    .dark {
+      --background: hsl(215, 50%, 8%);
+      --foreground: hsl(210, 40%, 98%);
+      --card: hsl(215, 45%, 12%);
+      --card-foreground: hsl(210, 40%, 98%);
+      --primary: hsl(207, 90%, 54%);
+      --primary-foreground: hsl(215, 50%, 8%);
+      --secondary: hsl(215, 35%, 18%);
+      --secondary-foreground: hsl(210, 40%, 98%);
+      --muted: hsl(215, 30%, 22%);
+      --muted-foreground: hsl(215, 20%, 65%);
+      --border: hsl(215, 30%, 22%);
+
+      --gradient-glow: radial-gradient(circle at 50% 0%, hsla(207, 90%, 54%, 0.2) 0%, transparent 50%);
+      --shadow-card: 0 25px 50px -12px hsla(0, 0%, 0%, 0.5);
+      --shadow-glow: 0 0 60px hsla(207, 90%, 54%, 0.25);
+      --shadow-icon: 0 4px 20px hsla(207, 90%, 54%, 0.3);
+    }
+
+    /* ========================================
+       BASE STYLES
+    ======================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* ========================================
+       ANIMATED BACKGROUND
+    ======================================== */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-blob {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: hsla(207, 90%, 54%, 0.1);
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    .ambient-blob:first-child {
+      top: 25%;
+      left: -25%;
+    }
+
+    .ambient-blob:last-child {
+      bottom: 25%;
+      right: -25%;
+      animation-delay: 1.5s;
+    }
+
+    /* ========================================
+       THEME TOGGLE
+    ======================================== */
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--foreground);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.1);
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ========================================
+       FLIP CARD
+    ======================================== */
+    .card-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      z-index: 10;
+      perspective: 1000px;
+    }
+
+    .card-glow-bg {
+      position: absolute;
+      inset: 0;
+      background: hsla(207, 90%, 54%, 0.2);
+      filter: blur(60px);
+      border-radius: 50%;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      width: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .flip-card-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotateY(180deg);
+    }
+
+    .card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card), var(--shadow-glow);
+    }
+
+    .card-gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 128px;
+      background: var(--gradient-glow);
+      pointer-events: none;
+    }
+
+    /* ========================================
+       FLIP BUTTON
+    ======================================== */
+    .flip-btn {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: hsla(215, 35%, 18%, 0.5);
+      border: 1px solid var(--border);
+      color: var(--muted-foreground);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .flip-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .flip-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========================================
+       HEADER SECTION
+    ======================================== */
+    .header {
+      position: relative;
+      padding: 2rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fade-in 0.6s ease-out forwards;
+      animation-delay: 100ms;
+    }
+
+    .logo img {
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .profile-photo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fade-in 0.6s ease-out forwards;
+      animation-delay: 200ms;
+    }
+
+    .profile-photo-glow {
+      position: absolute;
+      inset: 0;
+      background: hsla(207, 90%, 54%, 0.3);
+      border-radius: 50%;
+      filter: blur(20px);
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    .profile-photo-wrapper {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(135deg, var(--primary), hsla(207, 90%, 54%, 0.5));
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .name-section {
+      opacity: 0;
+      animation: slide-up 0.6s ease-out forwards;
+      animation-delay: 300ms;
+    }
+
+    .name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--foreground);
+      margin-bottom: 0.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .company {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+
+    /* ========================================
+       DIVIDER
+    ======================================== */
+    .divider {
+      height: 1px;
+      margin: 0 1.5rem;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+    /* ========================================
+       SOCIAL LINKS
+    ======================================== */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: hsla(215, 35%, 18%, 0.5);
+      border: 1px solid var(--border);
+      color: var(--foreground);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: scale-in 0.4s ease-out forwards;
+    }
+
+    .social-link:nth-child(1) { animation-delay: 400ms; }
+    .social-link:nth-child(2) { animation-delay: 480ms; }
+    .social-link:nth-child(3) { animation-delay: 560ms; }
+    .social-link:nth-child(4) { animation-delay: 640ms; }
+
+    .social-link:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--primary-foreground);
+      transform: scale(1.05);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ========================================
+       CONTACT DETAILS
+    ======================================== */
+    .contact-details {
+      padding: 0 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      background: hsla(215, 35%, 18%, 0.3);
+      border: 1px solid var(--border);
+      color: var(--foreground);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: slide-up 0.5s ease-out forwards;
+    }
+
+    .contact-item:nth-child(1) { animation-delay: 700ms; }
+    .contact-item:nth-child(2) { animation-delay: 800ms; }
+
+    .contact-item:hover {
+      border-color: var(--primary);
+      background: hsla(207, 90%, 54%, 0.1);
+    }
+
+    .contact-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .contact-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .contact-text {
+      font-size: 0.875rem;
+      color: var(--foreground);
+    }
+
+    /* ========================================
+       QR CODE SECTION
+    ======================================== */
+    .qr-section {
+      padding: 1.5rem;
+      text-align: center;
+      opacity: 0;
+      animation: fade-in 0.6s ease-out forwards;
+      animation-delay: 900ms;
+    }
+
+    .qr-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .qr-wrapper {
+      display: inline-block;
+      position: relative;
+      padding: 0.75rem;
+      background: hsla(215, 35%, 18%, 0.3);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .qr-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, hsla(207, 90%, 54%, 0.5), hsla(207, 90%, 54%, 0.1));
+      z-index: -1;
+    }
+
+    #qrcode {
+      display: block;
+    }
+
+    /* ========================================
+       ACTION BUTTONS
+    ======================================== */
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0 1.5rem 1.5rem;
+      opacity: 0;
+      animation: slide-up 0.6s ease-out forwards;
+      animation-delay: 1000ms;
+    }
+
+    .btn-primary {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      font-weight: 500;
+      font-size: 0.875rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: hsla(215, 35%, 18%, 0.5);
+      border: 1px solid var(--border);
+      color: var(--muted-foreground);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .btn-secondary svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ========================================
+       BACK SIDE
+    ======================================== */
+    .back-content {
+      padding: 4rem 1.5rem 1.5rem;
+      height: 100%;
+    }
+
+    .back-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header svg {
+      width: 20px;
+      height: 20px;
+      color: var(--primary);
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--foreground);
+    }
+
+    .section-text {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      line-height: 1.6;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: hsla(207, 90%, 54%, 0.1);
+      color: var(--primary);
+      border: 1px solid hsla(207, 90%, 54%, 0.2);
+      border-radius: 9999px;
+    }
+
+    .experience-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .experience-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .experience-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--foreground);
+    }
+
+    .experience-subtitle {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
+    .flip-hint {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .flip-hint svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* ========================================
+       TOAST NOTIFICATION
+    ======================================== */
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 40px hsla(0, 0%, 0%, 0.2);
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--foreground);
+      margin-bottom: 0.25rem;
+    }
+
+    .toast-description {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
+    /* ========================================
+       ANIMATIONS
+    ======================================== */
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        opacity: 0.5;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+    @media (max-width: 480px) {
+      .card-container {
+        max-width: 100%;
+      }
+      
+      .name {
+        font-size: 1.25rem;
+      }
+      
+      .title {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Particle Background -->
+  <canvas id="particles-canvas"></canvas>
+  
+  <!-- Ambient Background -->
+  <div class="ambient-bg">
+    <div class="ambient-blob"></div>
+    <div class="ambient-blob"></div>
+  </div>
+
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <i data-lucide="sun" class="sun-icon"></i>
+    <i data-lucide="moon" class="moon-icon" style="display: none;"></i>
+  </button>
+
+  <!-- Business Card -->
+  <div class="card-container">
+    <div class="card-glow-bg"></div>
+    
+    <div class="flip-card-inner" id="flipCard">
+      <!-- Front Side -->
+      <div class="flip-card-front">
+        <div class="card">
+          <div class="card-gradient-overlay"></div>
+          
+          <!-- Flip Button -->
+          <button class="flip-btn" onclick="flipCard()" aria-label="Flip card">
+            <i data-lucide="rotate-ccw"></i>
+          </button>
+          
+          <!-- Header -->
+          <div class="header">
+            <div class="logo">
+              <img src="https://i.ibb.co/placeholder/etmam-logo.png" alt="Etmam Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <div class="profile-photo-container">
+              <div class="profile-photo-glow"></div>
+              <div class="profile-photo-wrapper">
+                <img src="https://i.ibb.co/placeholder/mahmoud-photo.jpg" alt="Mahmoud Abdelrahman" class="profile-photo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%233b82f6%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2240%22 font-family=%22Arial%22%3EMA%3C/text%3E%3C/svg%3E'">
+              </div>
+            </div>
+            
+            <div class="name-section">
+              <h1 class="name">Mahmoud Abdelrahman</h1>
+              <p class="title">Business Analyst</p>
+              <p class="company">Etmam for Information Technology</p>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <!-- Social Links -->
+          <div class="social-links">
+            <a href="https://www.e-tec.sa/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Website">
+              <i data-lucide="globe"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/mahmoud-abdulrahman10593" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+            <a href="https://wa.me/966560303813" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="WhatsApp">
+              <i data-lucide="message-circle"></i>
+            </a>
+            <a href="mailto:Mahmoud.abdelrahman@e-tec.sa" class="social-link" aria-label="Email">
+              <i data-lucide="mail"></i>
+            </a>
+          </div>
+          
+          <!-- Contact Details -->
+          <div class="contact-details">
+            <a href="tel:+966560303813" class="contact-item">
+              <div class="contact-icon">
+                <i data-lucide="phone"></i>
+              </div>
+              <span class="contact-text">+966 560 303 813</span>
+            </a>
+            <a href="https://maps.google.com/?q=6719+حي،+السليمانية،+الرياض+12242" target="_blank" rel="noopener noreferrer" class="contact-item">
+              <div class="contact-icon">
+                <i data-lucide="map-pin"></i>
+              </div>
+              <span class="contact-text">السليمانية، الرياض 12242</span>
+            </a>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <!-- QR Code -->
+          <div class="qr-section">
+            <p class="qr-label">Scan to connect on LinkedIn</p>
+            <div class="qr-wrapper">
+              <canvas id="qrcode"></canvas>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="btn-primary" onclick="saveContact()">
+              <i data-lucide="user-plus"></i>
+              Save Contact
+            </button>
+            <button class="btn-secondary" onclick="shareCard()" aria-label="Share">
+              <i data-lucide="share-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Back Side -->
+      <div class="flip-card-back">
+        <div class="card" style="height: 100%;">
+          <div class="card-gradient-overlay"></div>
+          
+          <!-- Flip Button -->
+          <button class="flip-btn" onclick="flipCard()" aria-label="Flip card back">
+            <i data-lucide="rotate-ccw"></i>
+          </button>
+          
+          <div class="back-content">
+            <!-- About Section -->
+            <div class="back-section">
+              <div class="section-header">
+                <i data-lucide="heart"></i>
+                <h2 class="section-title">About Me</h2>
+              </div>
+              <p class="section-text">
+                Passionate Business Analyst with expertise in bridging the gap between business needs and technology solutions. Dedicated to driving digital transformation and process optimization.
+              </p>
+            </div>
+            
+            <div class="divider" style="margin: 0 0 1.5rem 0;"></div>
+            
+            <!-- Skills Section -->
+            <div class="back-section">
+              <div class="section-header">
+                <i data-lucide="award"></i>
+                <h2 class="section-title">Skills</h2>
+              </div>
+              <div class="skills-grid">
+                <span class="skill-tag">Business Analysis</span>
+                <span class="skill-tag">Requirements Gathering</span>
+                <span class="skill-tag">Process Optimization</span>
+                <span class="skill-tag">Stakeholder Management</span>
+                <span class="skill-tag">Agile Methodology</span>
+                <span class="skill-tag">Data Analysis</span>
+              </div>
+            </div>
+            
+            <div class="divider" style="margin: 0 0 1.5rem 0;"></div>
+            
+            <!-- Experience Section -->
+            <div class="back-section">
+              <div class="section-header">
+                <i data-lucide="briefcase"></i>
+                <h2 class="section-title">Experience</h2>
+              </div>
+              <div class="experience-item">
+                <div class="experience-dot"></div>
+                <div>
+                  <p class="experience-title">Business Analyst</p>
+                  <p class="experience-subtitle">Etmam for Information Technology</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="divider" style="margin: 0 0 1.5rem 0;"></div>
+            
+            <!-- Education Section -->
+            <div class="back-section">
+              <div class="section-header">
+                <i data-lucide="graduation-cap"></i>
+                <h2 class="section-title">Education</h2>
+              </div>
+              <div class="experience-item">
+                <div class="experience-dot"></div>
+                <div>
+                  <p class="experience-title">Bachelor's Degree</p>
+                  <p class="experience-subtitle">Business Information Systems</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flip-hint">
+            Tap <i data-lucide="rotate-ccw"></i> to flip back
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-title" id="toastTitle"></div>
+    <div class="toast-description" id="toastDescription"></div>
+  </div>
+
+  <script>
+    // ========================================
+    // INITIALIZATION
+    // ========================================
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Lucide icons
+      lucide.createIcons();
+      
+      // Initialize QR Code
+      generateQRCode();
+      
+      // Initialize particles
+      initParticles();
+      
+      // Check saved theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        updateThemeIcon(true);
+      }
+    });
+
+    // ========================================
+    // THEME TOGGLE
+    // ========================================
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const sunIcon = document.querySelector('.sun-icon');
+      const moonIcon = document.querySelector('.moon-icon');
+      if (isDark) {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+    // ========================================
+    // FLIP CARD
+    // ========================================
+    function flipCard() {
+      document.getElementById('flipCard').classList.toggle('flipped');
+    }
+
+    // ========================================
+    // QR CODE GENERATION
+    // ========================================
+    function generateQRCode() {
+      const canvas = document.getElementById('qrcode');
+      QRCode.toCanvas(canvas, 'https://www.linkedin.com/in/mahmoud-abdulrahman10593', {
+        width: 120,
+        margin: 0,
+        color: {
+          dark: '#2196f3',
+          light: '#00000000'
+        }
+      });
+    }
+
+    // ========================================
+    // SAVE CONTACT (vCard)
+    // ========================================
+    function saveContact() {
+      const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Mahmoud Abdelrahman
+ORG:Etmam for Information Technology
+TITLE:Business Analyst
+TEL;TYPE=CELL:+966560303813
+EMAIL:Mahmoud.abdelrahman@e-tec.sa
+URL:https://www.e-tec.sa/
+URL;TYPE=LinkedIn:https://www.linkedin.com/in/mahmoud-abdulrahman10593
+ADR;TYPE=WORK:;;6719 حي، السليمانية;الرياض;;12242;Saudi Arabia
+END:VCARD`;
+
+      const blob = new Blob([vCard], { type: 'text/vcard' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Mahmoud_Abdelrahman.vcf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      showToast('Contact Saved', 'VCard file downloaded successfully');
+    }
+
+    // ========================================
+    // SHARE CARD
+    // ========================================
+    async function shareCard() {
+      const shareData = {
+        title: 'Mahmoud Abdelrahman - Business Analyst',
+        text: 'Connect with Mahmoud Abdelrahman, Business Analyst at Etmam for Information Technology',
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            copyToClipboard();
+          }
+        }
+      } else {
+        copyToClipboard();
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('Link Copied', 'Card link copied to clipboard');
+    }
+
+    // ========================================
+    // TOAST NOTIFICATION
+    // ========================================
+    function showToast(title, description) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastDescription').textContent = description;
+      
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // ========================================
+    // PARTICLE ANIMATION
+    // ========================================
+    function initParticles() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = (Math.random() - 0.5) * 0.5;
+          this.speedY = (Math.random() - 0.5) * 0.5;
+          this.opacity = Math.random() * 0.5 + 0.2;
+        }
+
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+
+          if (this.x > canvas.width) this.x = 0;
+          if (this.x < 0) this.x = canvas.width;
+          if (this.y > canvas.height) this.y = 0;
+          if (this.y < 0) this.y = canvas.height;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(207, 90%, 54%, ${this.opacity})`;
+          ctx.fill();
+        }
+      }
+
+      function initParticlesArray() {
+        particles = [];
+        const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `hsla(207, 90%, 54%, ${0.15 * (1 - distance / 120)})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+          particle.update();
+          particle.draw();
+        });
+
+        connectParticles();
+        requestAnimationFrame(animate);
+      }
+
+      resizeCanvas();
+      initParticlesArray();
+      animate();
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        initParticlesArray();
+      });
+    }
+  </script>
+</body>
+</html>
